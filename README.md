@@ -19,10 +19,10 @@
 --------------------------------
 ## Objetivos e benefícios do Produto ⚡
  
-* Site para agendamento de eventos, acesso as trilhas dos parques.
+* Site para acesso aos Parques da cidade de Teresópolis, eventos e trilhas disponíveis em cada Parque.
 * Pracidade e eficiência em acesso.
 * Plataforma online 24 horas.
-* Gestão de dias e horários para agendamento.
+* Gestão de dias e horários de funcionamento dos Parques.
 * Segurança dos dados inseridos.
 * Utilização intuitiva e acessível para toda população.
 * Acesso de Administrador.
