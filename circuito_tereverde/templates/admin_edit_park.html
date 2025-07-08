@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Editar Parque{% endblock %}
+{% block content %}
+    <h2>Editar Parque: {{ park.name }}</h2>
+    <form method="POST">
+        <label for="name">Nome do Parque:</label>
+        <input type="text" id="name" name="name" value="{{ park.name }}" required>
+
+        <label for="description">Descrição:</label>
+        <textarea id="description" name="description" rows="5">{{ park.description }}</textarea>
+
+        <label for="operating_hours">Horário de Funcionamento (ex: 8h às 17h):</label>
+        <input type="text" id="operating_hours" name="operating_hours" value="{{ park.operating_hours or '' }}">
+
+        <label for="status">Status do Parque:</label>
+        <select id="status" name="status" required>
+            {# Corrigido para "disponivel" e condição selected #}
+            <option value="disponivel" {% if park.status == 'disponivel' %}selected{% endif %}>Disponível</option> 
+            <option value="interditado" {% if park.status == 'interditado' %}selected{% endif %}>Interditado</option>
+        </select>
+
+        <button type="submit">Atualizar Parque</button>
+    </form>
+    <p><a href="{{ url_for('admin_dashboard') }}">Voltar ao Painel</a></p>
+{% endblock %}

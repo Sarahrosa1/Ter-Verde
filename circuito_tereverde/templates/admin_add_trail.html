@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Adicionar Trilha{% endblock %}
+{% block content %}
+    <h2>Adicionar Nova Trilha para {{ park_name }}</h2>
+    <form method="POST" action="{{ url_for('add_trail', park_id=park_id) }}">
+        <label for="name">Nome da Trilha:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="difficulty">Dificuldade:</label>
+        <select id="difficulty" name="difficulty" required>
+            <option value="Fácil">Fácil</option>
+            <option value="Média">Média</option>
+            <option value="Difícil">Difícil</option>
+        </select>
+
+        <label for="description">Descrição:</label>
+        <textarea id="description" name="description" rows="5"></textarea>
+
+        <label for="status">Status da Trilha:</label>
+        <select id="status" name="status" required>
+            <option value="disponivel">Disponível</option> {# Corrigido para "disponivel" #}
+            <option value="interditado">Interditado</option>
+        </select>
+
+        <button type="submit">Adicionar Trilha</button>
+    </form>
+    <p><a href="{{ url_for('park_detail', park_id=park_id) }}">Voltar aos Detalhes do Parque</a></p>
+{% endblock %}

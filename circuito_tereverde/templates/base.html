@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circuito Terê Verde - {% block title %}{% endblock %}</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #f4f4f4; 
+            color: #333; 
+        }
+        
+        header { 
+            
+            background-color: #056421; 
+            color: white; 
+            padding: 2em 0; 
+            text-align: center; 
+            background-image: url('{{ url_for('static', filename='image.jpg') }}'); 
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat; 
+            position: relative; 
+            min-height: 150px; 
+            display: flex; 
+            align-items: flex-end; 
+            justify-content: center; 
+            padding-bottom: 20px; 
+        }
+        
+        
+        header h1 {
+            color: white; 
+            margin: 0; 
+            font-size: 2.8em; 
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7); 
+            z-index: 1; 
+        }
+
+        nav { 
+            background-color: #333; 
+            color: white; 
+            padding: 0.5em 0; 
+            text-align: center; 
+        }
+        nav a { 
+            color: white; 
+            text-decoration: none; 
+            padding: 0.5em 1em; 
+        }
+        nav a:hover { 
+            background-color: #555; 
+        }
+        .container { 
+            width: 80%; 
+            margin: 20px auto; 
+            background-color: white; 
+            padding: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+        }
+        .flash { 
+            padding: 10px; 
+            margin-bottom: 10px; 
+            border-radius: 5px; 
+        }
+        
+        .flash.success { 
+            background-color: #d4edda; 
+            color: #09691a; 
+            border: 1px solid #c3e6cb; 
+        }
+        
+        .flash.danger { 
+            background-color: #f8d7da; 
+            color: #721c24; 
+            border: 1px solid #f5c6cb; 
+        }
+        .flash.info { 
+            background-color: #d1ecf1; 
+            color: #0c5460; 
+            border: 1px solid #bee5eb; 
+        }
+        .button { 
+            display: inline-block; 
+            padding: 8px 15px; 
+            background-color: #007bff; 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 5px; 
+        }
+        .button.danger { 
+            background-color: #dc3545; 
+        }
+        .button:hover { 
+            opacity: 0.9; 
+        }
+        ul { 
+            list-style: none; 
+            padding: 0; 
+        }
+        li { 
+            margin-bottom: 10px; 
+        }
+        
+        h1, h2 { 
+            color: #3cce68; 
+        }
+        
+        form { 
+            margin-top: 20px; 
+        }
+        form label { 
+            display: block; 
+            margin-bottom: 5px; 
+            font-weight: bold; 
+        }
+        form input[type="text"], 
+        form input[type="password"], 
+        form input[type="date"], 
+        form input[type="time"], 
+        form textarea, 
+        form select {
+            width: 100%; 
+            padding: 8px; 
+            margin-bottom: 10px; 
+            border: 1px solid #ddd; 
+            border-radius: 4px; 
+            box-sizing: border-box;
+        }
+        form button { 
+            background-color: #28a745; 
+            color: white; 
+            padding: 10px 20px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+        }
+        form button:hover { 
+            opacity: 0.9; 
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 20px; 
+        }
+        table, th, td { 
+            border: 1px solid #ddd; 
+        }
+        th, td { 
+            padding: 8px; 
+            text-align: left; 
+        }
+        th { 
+            background-color: #eee; 
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 0em 0;
+            margin-top: 65px; 
+        }
+
+        .status-tag {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-left: 10px;
+            text-transform: capitalize; 
+        }
+
+        .status-disponivel { 
+            background-color: #d4edda; 
+            color: #28a745; 
+        }
+
+        .status-interditado {
+            background-color: #f8d7da; 
+            color: #dc3545; 
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Circuito Terê Verde</h1>
+    </header>
+    <nav>
+        <a href="{{ url_for('index') }}">Home</a>
+        {% if current_user and current_user['role'] == 'admin' %}
+            <a href="{{ url_for('admin_dashboard') }}">Painel Admin</a>
+            <a href="{{ url_for('logout') }}">Sair</a>
+        {% elif current_user %}
+            <a href="{{ url_for('logout') }}">Sair</a>
+        {% else %}
+            <a href="{{ url_for('login') }}">Login</a>
+        {% endif %}
+    </nav>
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for category, message in messages %}
+                        <li class="flash {{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Circuito Terê Verde. Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Explore Teresópolis{% endblock %}
+{% block content %}
+    <h2>Bem-vindo ao Circuito Terê Verde!</h2>
+    <p>Descubra os parques naturais de Teresópolis, suas trilhas e eventos.</p>
+    <h3>Parques Naturais:</h3>
+    <ul>
+        {% for park in parks %}
+            <li>
+                <a href="{{ url_for('park_detail', park_id=park.id) }}"><strong>{{ park.name }}</strong></a>
+                <p>{{ park.description }}</p>
+            </li>
+        {% else %}
+            <li>Nenhum parque cadastrado ainda.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

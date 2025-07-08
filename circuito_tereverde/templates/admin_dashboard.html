@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block title %}Painel Administrativo{% endblock %}
+{% block content %}
+    <h2>Painel Administrativo</h2>
+
+    <h3>Parques</h3>
+    <p><a href="{{ url_for('add_park') }}" class="button">Adicionar Novo Parque</a></p>
+
+    {% if parks_with_items %}
+        {% for park in parks_with_items %}
+            <div style="border: 1px solid #ccc; padding: 15px; margin-bottom: 25px; border-radius: 8px; background-color: #f9f9f9;">
+                <h4>
+                    Parque: <a href="{{ url_for('park_detail', park_id=park.id) }}">{{ park.name }}</a>
+                    <span class="status-tag status-{{ park.status }}">{{ park.status.capitalize() }}</span>
+                </h4>
+                <p><strong>Descrição:</strong> {{ park.description }}</p>
+                <p><strong>Horário de Funcionamento:</strong> {{ park.operating_hours }}</p>
+                
+                {# Contêiner Flexbox para alinhar os botões de ação do parque #}
+                <div style="display: flex; align-items: center; gap: 10px; margin-top: 15px;">
+                    <a href="{{ url_for('edit_park', park_id=park.id) }}" class="button">Editar Parque</a>
+                    <form action="{{ url_for('delete_park', park_id=park.id) }}" method="POST" style="margin: 0; padding: 0;">
+                        <button type="submit" class="button danger" onclick="return confirm('Tem certeza que deseja deletar este parque e todas as trilhas e eventos associados?');">Deletar Parque</button>
+                    </form>
+                </div>
+
+                {# Subgrupo para Trilhas deste Parque #}
+                <h5 style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px;">Trilhas em {{ park.name }}</h5>
+                <p><a href="{{ url_for('add_trail', park_id=park.id) }}" class="button">Adicionar Nova Trilha para {{ park.name }}</a></p>
+                {% if park.trails %}
+                    <table style="width: 100%;">
+                        <thead>
+                            <tr>
+                                {# REMOVIDO: <th>ID</th> #}
+                                <th>Nome</th>
+                                <th>Dificuldade</th>
+                                <th>Descrição</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for trail in park.trails %}
+                                <tr>
+                                    {# REMOVIDO: <td>{{ trail.id }}</td> #}
+                                    <td>{{ trail.name }}</td>
+                                    <td>{{ trail.difficulty }}</td>
+                                    <td>{{ trail.description[:50] }}...</td>
+                                    <td><span class="status-tag status-{{ trail.status }}">{{ trail.status.capitalize() }}</span></td>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <a href="{{ url_for('edit_trail', trail_id=trail.id) }}" class="button">Editar</a>
+                                            <form action="{{ url_for('delete_trail', trail_id=trail.id) }}" method="POST" style="margin: 0; padding: 0;">
+                                                <button type="submit" class="button danger" onclick="return confirm('Tem certeza que deseja deletar esta trilha?');">Deletar</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>Nenhuma trilha cadastrada para este parque.</p>
+                {% endif %}
+
+                {# Subgrupo para Eventos deste Parque #}
+                <h5 style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px;">Eventos em {{ park.name }}</h5>
+                <p><a href="{{ url_for('add_event', park_id=park.id) }}" class="button">Adicionar Novo Evento para {{ park.name }}</a></p>
+                {% if park.events %}
+                    <table style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Data</th>
+                                <th>Hora</th>
+                                <th>Descrição</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for event in park.events %}
+                                <tr>
+                                    <td>{{ event.id }}</td>
+                                    <td>{{ event.name }}</td>
+                                    <td>{{ event.event_date }}</td>
+                                    <td>{{ event.event_time }}</td>
+                                    <td>{{ event.description[:50] }}...</td>
+                                    <td>
+                                        <div style="display: flex; align-items: center; gap: 10px;">
+                                            <a href="{{ url_for('edit_event', event_id=event.id) }}" class="button">Editar</a>
+                                            <form action="{{ url_for('delete_event', event_id=event.id) }}" method="POST" style="margin: 0; padding: 0;">
+                                                <button type="submit" class="button danger" onclick="return confirm('Tem certeza que deseja deletar este evento?');">Deletar</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <p>Nenhum evento programado para este parque.</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Nenhum parque cadastrado ainda.</p>
+    {% endif %}
+
+{% endblock %}

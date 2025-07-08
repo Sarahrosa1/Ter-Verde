@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Adicionar Evento{% endblock %}
+{% block content %}
+    <h2>Adicionar Novo Evento para {{ park_name }}</h2>
+    {# Ação do formulário para enviar os dados para a rota add_event com o park_id #}
+    <form method="POST" action="{{ url_for('add_event', park_id=park_id) }}">
+        <label for="name">Nome do Evento:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="event_date">Data do Evento:</label>
+        <input type="date" id="event_date" name="event_date" required>
+
+        <label for="event_time">Hora do Evento:</label>
+        <input type="time" id="event_time" name="event_time" required>
+
+        <label for="description">Descrição:</label>
+        <textarea id="description" name="description" rows="5"></textarea>
+
+        <button type="submit">Adicionar Evento</button>
+    </form>
+    <p><a href="{{ url_for('park_detail', park_id=park_id) }}">Voltar aos Detalhes do Parque</a></p>
+{% endblock %}

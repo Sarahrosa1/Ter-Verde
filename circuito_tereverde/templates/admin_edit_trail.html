@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Editar Trilha{% endblock %}
+{% block content %}
+    <h2>Editar Trilha: {{ trail.name }}</h2>
+    <form method="POST">
+        <label for="name">Nome da Trilha:</label>
+        <input type="text" id="name" name="name" value="{{ trail.name }}" required>
+
+        <label for="difficulty">Dificuldade:</label>
+        <select id="difficulty" name="difficulty" required>
+            <option value="Fácil" {% if trail.difficulty == 'Fácil' %}selected{% endif %}>Fácil</option>
+            <option value="Média" {% if trail.difficulty == 'Média' %}selected{% endif %}>Média</option>
+            <option value="Difícil" {% if trail.difficulty == 'Difícil' %}selected{% endif %}>Difícil</option>
+        </select>
+
+        <label for="description">Descrição:</label>
+        <textarea id="description" name="description" rows="5">{{ trail.description }}</textarea>
+
+        <label for="status">Status da Trilha:</label>
+        <select id="status" name="status" required>
+            {# Corrigido para "disponivel" e condição selected #}
+            <option value="disponivel" {% if trail.status == 'disponivel' %}selected{% endif %}>Disponível</option> 
+            <option value="interditado" {% if trail.status == 'interditado' %}selected{% endif %}>Interditado</option>
+        </select>
+
+        <button type="submit">Atualizar Trilha</button>
+    </form>
+    <p><a href="{{ url_for('park_detail', park_id=trail.park_id) }}">Voltar aos Detalhes do Parque</a></p>
+{% endblock %}

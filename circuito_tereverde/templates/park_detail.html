@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}{{ park.name }}{% endblock %}
+{% block content %}
+    <h2>
+        {{ park.name }} 
+        <span class="status-tag status-{{ park.status }}">{{ park.status.capitalize() }}</span>
+    </h2>
+    
+    <p>{{ park.description }}</p>
+    {% if park.operating_hours %}
+        <p><strong>Horário de Funcionamento:</strong> {{ park.operating_hours }}</p>
+    {% endif %}
+
+    <h3>Trilhas:</h3>
+    {% if current_user and current_user['role'] == 'admin' %}
+        <p><a href="{{ url_for('add_trail', park_id=park.id) }}" class="button">Adicionar Nova Trilha</a></p>
+    {% endif %}
+
+    {% if trails %}
+        <ul>
+            {% for trail in trails %}
+                <li style="margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px;">
+                    <strong>{{ trail.name }}</strong> 
+                    <span class="status-tag status-{{ trail.status }}">{{ trail.status.capitalize() }}</span>
+                    (Dificuldade: {{ trail.difficulty }})
+                    <p>{{ trail.description }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nenhuma trilha cadastrada para este parque.</p>
+    {% endif %}
+
+    <h3>Eventos:</h3>
+    {% if current_user and current_user['role'] == 'admin' %}
+        <p><a href="{{ url_for('add_event', park_id=park.id) }}" class="button">Adicionar Novo Evento</a></p>
+    {% endif %}
+    {% if events %}
+        <ul>
+            {% for event in events %}
+                <li>
+                    <strong>{{ event.name }}</strong> - {{ event.event_date }} às {{ event.event_time }}
+                    <p>{{ event.description }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Nenhum evento programado para este parque.</p>
+    {% endif %}
+{% endblock %}
