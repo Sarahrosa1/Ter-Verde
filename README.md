@@ -45,8 +45,5 @@ Funcionalidades Principais:
   - Controle de status de disponibilidade para parques e trilhas, informando se estão "Disponível" ou "Interditado".
 * <strong>Design Responsivo:</strong> A interface é adaptada para oferecer uma boa experiência de usuário em diferentes tamanhos de tela, desde dispositivos móveis até desktops.
 
-## Como Rodar o Projeto Localmente ⚙️
-
-Siga estas instruções para configurar e executar o projeto em sua máquina local.
 
 
